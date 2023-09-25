@@ -4,41 +4,22 @@ import Header from './components/header.jsx';
 import Popup from './components/popup';
 import './style.scss';
 
-//원시형 자료 : 메모리, 값 자체가 callstack에서 생성된 다음 저장
-//원시형자료는 변수값을 다른 변수에 복사했을때 값 자체가 복사되는 deep copy(완전복사) => 복사된 값을 변경해도 원본은 그대로 유지(불변성 유지, immutable)
-//참조형 자료 : 메모리(callstack), 배열이나 객체 등 값 자체(heap memory)에 생성
-//callstack에 있는 메모리에는 배열의 값 자체가 담기는게 아니 힙메모리에 있는 값의 위치값이 담김
-//참조링크가 담겨있는 변수를 새로운 변수에 옮겨담으면 값이 복사되는 것이 아닌 참조 링크만 복사됨
-//결국 같은 값을 가리키고 있는 두개의 링크만 복사
-//복사된 링크의 값을 바꾸면 결국 원본값이 훼손(얕은 복사, shallow copy) (불변성 유지 안됨)
-
-//내가 이해한 것
-//원시형 자료 복사 : 값이 담긴 상자가 두개가 됨
-//참조형 자료 복사 : 값이 담긴 상자를 보여주는 카메라가 두개가 됨
-
-//리액트 개발시 불변성이 중요한 이유
-//리액트는 원본이 있어야 복사본을 통해서 차이점을 비교분석
-//리액트 안에서 배열이나, 객체같은 참조형 자료는 무조건 deep copy를 해서 데이터를 변경 해야함
+import { useState } from 'react';
 
 function App() {
-	let student = {
-		name: 'David',
-		age: 20,
-	};
+	console.log('app');
+	//const [상태값, 상태변경전용함수] = useState(초기값);
+	//리액트 컴포넌트는 state값이 state변경함수로 변경되야지만 컴포넌트가 재랜더링됨
+	//숫자를 증가, 감소 시킬때 전위증감 연산자를 써야지만 해당 랜더링 사이클에서 바로 값이 변경되면서 다음번 렌더링에 반영
+	let [Num, setNum] = useState(0);
+	console.log(Num);
 
-	let newStudent = { ...student };
-	newStudent.name = 'Andy';
-	console.log(newStudent);
-	console.log(student);
-
-	let isPop = true;
-	let isFooter = true;
 	return (
 		<>
-			<Header />
-			{isFooter && <Footer />}
-			{isPop ? <Popup /> : null}
-			<List />
+			<h1>{Num}</h1>
+
+			<button onClick={() => setNum(--Num)}>minus</button>
+			<button onClick={() => setNum(++Num)}>plus</button>
 		</>
 	);
 }
@@ -46,38 +27,20 @@ function App() {
 export default App;
 
 /*
-SSR vs CSR
+	hooks
+	- 리액트 16버전부터 새로나온 개념으로 리앸트에서 자주 쓰이는 상ㅇ태관리, 생명주기에 관련된 내용들을 hook이라는 형태의 내장함수로 편의 기능을 제공
+	-hook이 나오기 전까지는 class방식으로 컴포넌트를 생성 및 기능확장을 비효율적으로 처리
 
-SSR - Server SIde Rendering
-- 페이지 이동시마다 일일이 서버쪽에 html파일을 요청해서 가져오는 방식
-- 장점 : 초기 로딩 속도가 빠름, 검색엔진 최적와 (seo좋음)
-- 단점 : 페이지 이동시마다 일일이 서버쪽에 파일을 요청해야하므로 페이지 깜빡거림 현상이 있음
+	자주쓰는 hook top3
+	useState : 컴포넌트에서 화면의 랜더링을 담당하는 중요한 정보값 관리
+	useEffect : 컴포넌트의 생명주기에 관련된 함수 (생성, 변화, 소멸)
+	useRef : 컴포넌트 안쪽에서 특정 값을 참조객체에 담을때
 
-CSR - Client SIde Rendering
-- 초기에 빈 html파일을 서버쪽에서 가져오고 화면에 출력된 모든 데이터를 자바스크립트로 청크단위의 모든 데이터파일을 가져온 후 빈 html 파일에 동적으로 출력
-- 장점 : 한번에 서브 페이지를 포함한 모든 파일을 불러오기 때문에 페이지 이동시마다 파일을 요청할 필요가 없기 때문에 페이지 전환이 자연스러움
-- 단점 : 모든페이지에 대한 데이터를 한번에 가져오기 때문에 초기 로딩속도가 ssr방식에 비해 늦는다(딱히 엄청나게 늦는건 아님), 검색엔진 최적화 X
-
-
-real DOM (실제돔)
-- HTML 태그를 이용해서 구조를 만들면 브라우저가 이를 해석해서 실제 돔 형태로 객체를 만들고 화면에 렌더링
-
-
-Virtual DOM(가상돔)
-- 브라우저에의해 real dom으로 변경되기 전 자바스크립트에 의해서 메모리상으로 가상의 DOM을 만들어서 기존의 DOM구조와 차이점을 분석하고 바뀐부분을 다시 렌더링
-
-
-JSX
-- 리엑트에서 DOM을 효율적으로 생성하기 위한 HTML의 규칙성을 따라한 java script 돔 제작 방식
-
-
-
-컴퍼넌트 생성시 주의점
-- 무조건 JSX를 리턴
-- 함수 이름은 대문자로 시각
-- export로 내보내야지 다른 컴포넌트에서 불러올수 있음
-- 하나의 컴퍼넌트 함수는 단위 JSX를 리턴 가능
-- 복수개의 JSX를 리턴하고 싶을 때는 wrappin element로 묶어서 그룹화한뒤 리턴
-
-- 중첩된 엘리먼트 노드를 생성하지 않고 복수개의 JSX를 리턴하고 싶을 때는 <></> Fragment로 감싸줌
+	리액트의 성능 관리를 hook
+	리액트에서의 memoization : 메모리점유율을 늘려서 성능을 개선
+	js는 기본적으로 Garbage collector에 의해서 메모리가 관리됨
+	아래의 hook을 통해서 특정 값을 강제 메모이제이션 처리하면 Garbage collector에서 제외됨
+	memo(컴포넌트 자체를 메모이제이션)
+	useCallback(컴포넌트 안쪽의 핸들러 함수 자체를 메모이제이션)
+	useMemo(특정 핸들러 힘수의 리턴값을 메모이제이션)
 */
