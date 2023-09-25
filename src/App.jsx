@@ -5,6 +5,12 @@ import Popup from './components/popup';
 import './style.scss';
 
 function App() {
+	let arr = ['reading', 'game', 'sleep'];
+	let newarr = arr;
+	newarr[0] = 'movie';
+	console.log(newarr);
+	console.log(arr);
+
 	let isPop = true;
 	let isFooter = true;
 	return (
