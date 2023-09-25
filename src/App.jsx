@@ -4,11 +4,29 @@ import Header from './components/header.jsx';
 import Popup from './components/popup';
 import './style.scss';
 
+//원시형 자료 : 메모리, 값 자체가 callstack에서 생성된 다음 저장
+//원시형자료는 변수값을 다른 변수에 복사했을때 값 자체가 복사되는 deep copy(완전복사) => 복사된 값을 변경해도 원본은 그대로 유지(불변성 유지, immutable)
+//참조형 자료 : 메모리(callstack), 배열이나 객체 등 값 자체(heap memory)에 생성
+//callstack에 있는 메모리에는 배열의 값 자체가 담기는게 아니 힙메모리에 있는 값의 위치값이 담김
+//참조링크가 담겨있는 변수를 새로운 변수에 옮겨담으면 값이 복사되는 것이 아닌 참조 링크만 복사됨
+//결국 같은 값을 가리키고 있는 두개의 링크만 복사
+//복사된 링크의 값을 바꾸면 결국 원본값이 훼손(얕은 복사, shallow copy) (불변성 유지 안됨)
+
+//내가 이해한 것
+//원시형 자료 복사 : 값이 담긴 상자가 두개가 됨
+//참조형 자료 복사 : 값이 담긴 상자를 보여주는 카메라가 두개가 됨
+
+//리액트 개발시 불변성이 중요한 이유
+//리액트는 원본이 있어야 복사본을 통해서 차이점을 비교분석
+//리액트 안에서 배열이나, 객체같은 참조형 자료는 무조건 deep copy를 해서 데이터를 변경 해야함
+
 function App() {
 	let arr = ['reading', 'game', 'sleep'];
-	let newarr = arr;
-	newarr[0] = 'movie';
-	console.log(newarr);
+	//전개연산자 (Spread Operator) heap 메모리에 있는 값을 물리적으로 꺼내서 전개 후 대괄호로 묶어서 복사
+	//전개연산자를 이용하면 원본을 훼손시키지 않으면서 참조형 자료를 deep copy가능
+	let newArr = [...arr];
+	newArr[0] = 'movie';
+	console.log(newArr);
 	console.log(arr);
 
 	let isPop = true;
