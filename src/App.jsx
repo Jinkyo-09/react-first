@@ -1,8 +1,12 @@
+import Footer from './components/footer';
+import Header from './components/header.jsx';
+import './style.scss';
+
 function App() {
 	return (
 		<>
-			<h1>Hello</h1>
-			<h2>World</h2>
+			<Header />
+			<Footer />
 		</>
 	);
 }
