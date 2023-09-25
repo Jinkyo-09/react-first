@@ -21,13 +21,15 @@ import './style.scss';
 //리액트 안에서 배열이나, 객체같은 참조형 자료는 무조건 deep copy를 해서 데이터를 변경 해야함
 
 function App() {
-	let arr = ['reading', 'game', 'sleep'];
-	//전개연산자 (Spread Operator) heap 메모리에 있는 값을 물리적으로 꺼내서 전개 후 대괄호로 묶어서 복사
-	//전개연산자를 이용하면 원본을 훼손시키지 않으면서 참조형 자료를 deep copy가능
-	let newArr = [...arr];
-	newArr[0] = 'movie';
-	console.log(newArr);
-	console.log(arr);
+	let student = {
+		name: 'David',
+		age: 20,
+	};
+
+	let newStudent = { ...student };
+	newStudent.name = 'Andy';
+	console.log(newStudent);
+	console.log(student);
 
 	let isPop = true;
 	let isFooter = true;
