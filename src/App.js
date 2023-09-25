@@ -1,5 +1,10 @@
 function App() {
-	return <h1>Hello</h1>;
+	return (
+		<>
+			<h1>Hello</h1>
+			<h2>World</h2>
+		</>
+	);
 }
 
 export default App;
@@ -27,5 +32,16 @@ Virtual DOM(가상돔)
 
 
 JSX
-- 리엑트에서 DOM을 효율적으로 생성하기 위한 HTML의 규칙성을 따라한 java script 제작 방식
+- 리엑트에서 DOM을 효율적으로 생성하기 위한 HTML의 규칙성을 따라한 java script 돔 제작 방식
+
+
+
+컴퍼넌트 생성시 주의점
+- 무조건 JSX를 리턴
+- 함수 이름은 대문자로 시각
+- export로 내보내야지 다른 컴포넌트에서 불러올수 있음
+- 하나의 컴퍼넌트 함수는 단위 JSX를 리턴 가능
+- 복수개의 JSX를 리턴하고 싶을 때는 wrappin element로 묶어서 그룹화한뒤 리턴
+
+- 중첩된 엘리먼트 노드를 생성하지 않고 복수개의 JSX를 리턴하고 싶을 때는 <></> Fragment로 감싸줌
 */
