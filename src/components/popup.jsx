@@ -14,6 +14,10 @@ function Popup() {
 		};
 	}, []);
 
+	useEffect(() => {
+		console.log('팝업의 num 상태변화');
+	}, [num]);
+
 	return (
 		<aside>
 			<h1>{num}</h1>
