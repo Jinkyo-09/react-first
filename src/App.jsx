@@ -6,18 +6,13 @@ import Popup from './components/popup';
 import './style.scss';
 
 function App() {
-	const [colors, setcolors] = useState(['pink', 'lightblue', 'yellowgreen']);
-	const colors2 = [...colors];
-	colors2[0] = 'hotpink';
+	const [isPopup, setisPopup] = useState(false);
 
 	return (
 		<>
-			{colors.map((color, idx) => (
-				<button style={{ backgroundColor: color }} key={idx}>
-					{color}
-				</button>
-			))}
-			<button onClick={() => setcolors(colors2)}>색상 변경</button>
+			<button onClick={() => setisPopup(true)}>팝업 열기</button>
+			<button onClick={() => setisPopup(false)}>팝업 닫기</button>
+			{isPopup && <Popup />}
 		</>
 	);
 }
